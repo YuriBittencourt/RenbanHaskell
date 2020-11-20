@@ -41,8 +41,8 @@ buscaGrupo :: Int -> Int -> Bool
 buscaGrupo x grupo = x `elem` (getGrupo grupo (achatarMatriz secundaria))
 
 -- Busca por elemento x na linha e coluna de índice "index"
-buscaLinCol :: Int -> Int -> Bool
-buscaLinCol x index = x `elem` (principal !! index) || x `elem` (getColuna index (n-1))
+buscaLinCol :: Int -> Int -> Int -> Bool
+buscaLinCol x lin col = x `elem` (principal !! lin) || x `elem` (getColuna col (n-1))
 
 -- -=-=-=-=-=-=-= Aqui estão as funções auxiliares: -=-=-=-=-=-=-=
 
