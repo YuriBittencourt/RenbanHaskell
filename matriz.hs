@@ -16,17 +16,23 @@ cria_puzzle x n = x!!n!!n
 numGrupos :: [Int] -> Int
 numGrupos x = (maximo x) + 1
 
-
--- Define qual o tamanho de cada grupo
+-- Retorna uma lista com o tamanho de cada grupo
 tamGrupos :: [Int] -> [Int] -> [Int]
 tamGrupos lista [] = lista
 tamGrupos lista matriz = tamGrupos (setPos  (1 + (getPos (head matriz) lista)) (head matriz) lista) (tail matriz)
 
-
+-- Retorna uma lista contendo o grupo "grupo"
+getGrupo :: Int -> [Int] -> [Int]
+getGrupo grupo [] = []
+getGrupo grupo matriz
+    | (grupo == (head matriz)) = (achatarMatriz principal) !! (length (achatarMatriz principal) - length matriz) : getGrupo grupo (tail matriz)
+    | otherwise = getGrupo grupo (tail matriz)
 
 -- Inicializa a lista de grupos
---setGrupos :: []
---setGrupos
+setGrupos :: Int -> [[Int]]
+setGrupos grupo
+    | (grupo < 0) = []
+    | otherwise = setGrupos (grupo-1) ++ [getGrupo grupo (achatarMatriz secundaria)]
 
 -- -=-=-=-=-=-=-= Aqui estão as funções auxiliares: -=-=-=-=-=-=-=
 
@@ -42,13 +48,9 @@ ocorrencias (a:b) c =
   else
     (ocorrencias b c)
 
--- Retorna elemento na posição
-getPos :: Int -> [Int] -> Int
-getPos x matriz = matriz !! x
-
--- Insere x na posição n da lista
+-- Insere x na posição index da lista
 setPos :: Int -> Int -> [Int] -> [Int]
-setPos x n lista = take n lista ++ [x] ++ drop (n+1) lista
+setPos x index lista = take index lista ++ [x] ++ drop (index+1) lista
 
 
 -- Concatena as linhas de uma matriz em uma só lista
