@@ -4,7 +4,6 @@ module Matriz
     tamGrupos,
     achatarMatriz,
     setPos,
-    getPos,
     maximo,
     minimo,
     getGrupo,
@@ -27,7 +26,7 @@ numGrupos x = (maximo x) + 1
 -- Retorna uma lista com o tamanho de cada grupo
 tamGrupos :: [Int] -> [Int] -> [Int]
 tamGrupos lista [] = lista
-tamGrupos lista matriz = tamGrupos (setPos  (1 + (getPos (head matriz) lista)) (head matriz) lista) (tail matriz)
+tamGrupos lista matriz = tamGrupos (setPos  (1 + lista!!(head matriz)) (head matriz) lista) (tail matriz)
 
 -- Retorna uma lista contendo o grupo "grupo"
 getGrupo :: Int -> [Int] -> [Int]
