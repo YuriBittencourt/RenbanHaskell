@@ -4,8 +4,13 @@ module Matriz
     tamGrupos,
     achatarMatriz,
     setPos,
-    getPos
+    maximo,
+    minimo,
+    getGrupo,
+    getColuna
     ) where
+
+import Puzzle
 
 --data puzzle = Int Matriz Matriz [[Int]] [Int]
 --             n  princ. secun. grupos  tam-grupos
@@ -21,13 +26,13 @@ numGrupos x = (maximo x) + 1
 -- Retorna uma lista com o tamanho de cada grupo
 tamGrupos :: [Int] -> [Int] -> [Int]
 tamGrupos lista [] = lista
-tamGrupos lista matriz = tamGrupos (setPos  (1 + (getPos (head matriz) lista)) (head matriz) lista) (tail matriz)
+tamGrupos lista matriz = tamGrupos (setPos  (1 + lista!!(head matriz)) (head matriz) lista) (tail matriz)
 
 -- Retorna uma lista contendo o grupo "grupo"
 getGrupo :: Int -> [Int] -> [Int]
 getGrupo grupo [] = []
 getGrupo grupo matriz
-    | (grupo == (head matriz)) = (achatarMatriz principal) !! (length (achatarMatriz principal) - length matriz) : getGrupo grupo (tail matriz)
+    | (grupo == (head matriz)) = (achatarMatriz Puzzle.principal) !! (length (achatarMatriz Puzzle.principal) - length matriz) : getGrupo grupo (tail matriz)
     | otherwise = getGrupo grupo (tail matriz)
 
 -- Inicializa a lista de grupos
@@ -36,19 +41,15 @@ setGrupos grupo
     | (grupo < 0) = []
     | otherwise = setGrupos (grupo-1) ++ [getGrupo grupo (achatarMatriz secundaria)]
 
--- Busca por elemento x num grupo
-buscaGrupo :: Int -> Int -> Bool
-buscaGrupo x grupo = x `elem` (getGrupo grupo (achatarMatriz secundaria))
-
--- Busca por elemento x na linha e coluna de índice "index"
-buscaLinCol :: Int -> Int -> Int -> Bool
-buscaLinCol x lin col = x `elem` (principal !! lin) || x `elem` (getColuna col (n-1))
-
 -- -=-=-=-=-=-=-= Aqui estão as funções auxiliares: -=-=-=-=-=-=-=
 
 -- Define qual o maior valor de uma lista
 maximo :: [Int] -> Int
 maximo (a:x) = foldr max a x
+
+-- Define qual o menor valor de uma lista
+minimo :: [Int] -> Int
+minimo (a:x) = foldr min a x
 
 -- Insere x na posição index da lista
 setPos :: Int -> Int -> [Int] -> [Int]
@@ -59,7 +60,7 @@ achatarMatriz :: [[Int]] -> [Int]
 achatarMatriz [] = []
 achatarMatriz (a:x) = a ++ concat x
 
--- Getter para coluna
+-- Getter para coluna da matriz principal
 getColuna :: Int -> Int -> [Int]
 getColuna col (-1) = []
-getColuna col index = getColuna col (index-1) ++ [(principal !! index) !! col]
+getColuna col index = getColuna col (index-1) ++ [(Puzzle.principal !! index) !! col]
