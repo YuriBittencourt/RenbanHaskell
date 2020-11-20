@@ -4,8 +4,14 @@ module Matriz
     tamGrupos,
     achatarMatriz,
     setPos,
-    getPos
+    getPos,
+    maximo,
+    minimo,
+    getGrupo,
+    getColuna
     ) where
+
+import Puzzle
 
 --data puzzle = Int Matriz Matriz [[Int]] [Int]
 --             n  princ. secun. grupos  tam-grupos
@@ -27,34 +33,24 @@ tamGrupos lista matriz = tamGrupos (setPos  (1 + (getPos (head matriz) lista)) (
 getGrupo :: Int -> [Int] -> [Int]
 getGrupo grupo [] = []
 getGrupo grupo matriz
-    | (grupo == (head matriz)) = (achatarMatriz principal) !! (length (achatarMatriz principal) - length matriz) : getGrupo grupo (tail matriz)
+    | (grupo == (head matriz)) = (achatarMatriz Puzzle.principal) !! (length (achatarMatriz Puzzle.principal) - length matriz) : getGrupo grupo (tail matriz)
     | otherwise = getGrupo grupo (tail matriz)
 
 -- Inicializa a lista de grupos
 setGrupos :: Int -> [[Int]]
 setGrupos grupo
     | (grupo < 0) = []
-    | otherwise = setGrupos (grupo-1) ++ [getGrupo grupo (achatarMatriz secundaria)]
+    | otherwise = setGrupos (grupo-1) ++ [getGrupo grupo (achatarMatriz Puzzle.secundaria)]
 
--- Busca por elemento x num grupo
-buscaGrupo :: Int -> Int -> Bool
-buscaGrupo x grupo = x `elem` (getGrupo grupo (achatarMatriz secundaria))
-
--- Busca por elemento x na linha e coluna de índice "index"
-buscaLinCol :: Int -> Int -> Bool
-buscaLinCol x index = x `elem` (principal !! index) || x `elem` (getColuna index (n-1))
-
--- Verifica se um numero está no intervalo possivel do grupo
-noIntervalo :: [Int] -> Int -> Int -> Bool
-noIntervalo grupo tamanho valor
-    |  grupo == [] = True
-    |  (length grupo) - 1 == tamanho = ehSequencia (grupo:valor)
-    |  otherwise = (valor >= ((minimo grupo) - (tamanho - (((maximo grupo) - (minimo grupo) + 1))))) && (valor <= ((maximo grupo) - (tamanho - (((maximo grupo) - (minimo grupo) + 1)))))
 -- -=-=-=-=-=-=-= Aqui estão as funções auxiliares: -=-=-=-=-=-=-=
 
 -- Define qual o maior valor de uma lista
 maximo :: [Int] -> Int
 maximo (a:x) = foldr max a x
+
+-- Define qual o menor valor de uma lista
+minimo :: [Int] -> Int
+minimo (a:x) = foldr min a x
 
 -- Insere x na posição index da lista
 setPos :: Int -> Int -> [Int] -> [Int]
@@ -68,4 +64,4 @@ achatarMatriz (a:x) = a ++ concat x
 -- Getter para coluna
 getColuna :: Int -> Int -> [Int]
 getColuna col (-1) = []
-getColuna col index = getColuna col (index-1) ++ [(principal !! index) !! col]
+getColuna col index = getColuna col (index-1) ++ [(Puzzle.principal !! index) !! col]
