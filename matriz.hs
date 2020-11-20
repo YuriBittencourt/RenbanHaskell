@@ -2,7 +2,9 @@ module Matriz
   (cria_puzzle,
   numGrupos,
   tamGrupos,
-  achatarMatriz
+  achatarMatriz,
+  setPos,
+  getPos
   ) where
 
 --data puzzle = Int Matriz Matriz [[Int]] [Int]
