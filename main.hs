@@ -4,6 +4,17 @@ import Resolvedor
 
 main = do
 
-print(Matriz.def_numGrupos [[1,2,3,5,4], [8,6]])
-print(Matriz.cria_puzzle [[1],[2]] 0)
-print(Resolvedor.resolve 1)
+--print(Matriz.numGrupos [[1,2,3,5,4], [8,6]])
+--print(Matriz.cria_puzzle [[1],[2]] 0)
+--print(Resolvedor.resolve 1)
+
+  let matriz = [[0, 1, 2, 2, 3, 4, 4],
+              [18, 18, 19, 2, 3, 4, 5],
+              [16, 17, 20, 20, 3, 6, 7],
+              [16, 16, 20, 3, 3, 7, 7],
+              [14, 15, 15, 15, 15, 8, 8],
+              [13, 12, 12, 11, 11, 9, 9],
+              [13, 12, 12, 11, 10, 9, 9]]
+  let matrizLista = Matriz.achatarMatriz (matriz)
+  print (Matriz.numGrupos (matrizLista))
+  print (Matriz.tamGrupos (replicate (Matriz.numGrupos matrizLista) 0) matrizLista)
