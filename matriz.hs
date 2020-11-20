@@ -44,6 +44,12 @@ buscaGrupo x grupo = x `elem` (getGrupo grupo (achatarMatriz secundaria))
 buscaLinCol :: Int -> Int -> Bool
 buscaLinCol x index = x `elem` (principal !! index) || x `elem` (getColuna index (n-1))
 
+-- Verifica se um numero está no intervalo possivel do grupo
+noIntervalo :: [Int] -> Int -> Int -> Bool
+noIntervalo grupo tamanho valor
+    |  grupo == [] = True
+    |  (length grupo) - 1 == tamanho = ehSequencia (grupo:valor)
+    |  otherwise = (valor >= ((minimo grupo) - (tamanho - (((maximo grupo) - (minimo grupo) + 1))))) && (valor <= ((maximo grupo) - (tamanho - (((maximo grupo) - (minimo grupo) + 1)))))
 -- -=-=-=-=-=-=-= Aqui estão as funções auxiliares: -=-=-=-=-=-=-=
 
 -- Define qual o maior valor de uma lista
