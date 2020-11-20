@@ -1,11 +1,11 @@
 module Matriz
-  (cria_puzzle,
-  numGrupos,
-  tamGrupos,
-  achatarMatriz,
-  setPos,
-  getPos
-  ) where
+    (cria_puzzle,
+    numGrupos,
+    tamGrupos,
+    achatarMatriz,
+    setPos,
+    getPos
+    ) where
 
 --data puzzle = Int Matriz Matriz [[Int]] [Int]
 --             n  princ. secun. grupos  tam-grupos
@@ -36,26 +36,30 @@ setGrupos grupo
     | (grupo < 0) = []
     | otherwise = setGrupos (grupo-1) ++ [getGrupo grupo (achatarMatriz secundaria)]
 
+-- Busca por elemento x num grupo
+buscaGrupo :: Int -> Int -> Bool
+buscaGrupo x grupo = x `elem` (getGrupo grupo (achatarMatriz secundaria))
+
+-- Busca por elemento x na linha e coluna de índice "index"
+buscaLinCol :: Int -> Int -> Bool
+buscaLinCol x index = x `elem` (principal !! index) || x `elem` (getColuna index (n-1))
+
 -- -=-=-=-=-=-=-= Aqui estão as funções auxiliares: -=-=-=-=-=-=-=
 
 -- Define qual o maior valor de uma lista
 maximo :: [Int] -> Int
 maximo (a:x) = foldr max a x
 
--- Conta a quantidade de ocorrências de um número em uma lista
-ocorrencias :: [Int] -> Int -> Int
-ocorrencias (a:b) c =
-  if (a == c) then
-    1 + (ocorrencias b c)
-  else
-    (ocorrencias b c)
-
 -- Insere x na posição index da lista
 setPos :: Int -> Int -> [Int] -> [Int]
 setPos x index lista = take index lista ++ [x] ++ drop (index+1) lista
-
 
 -- Concatena as linhas de uma matriz em uma só lista
 achatarMatriz :: [[Int]] -> [Int]
 achatarMatriz [] = []
 achatarMatriz (a:x) = a ++ concat x
+
+-- Getter para coluna
+getColuna :: Int -> Int -> [Int]
+getColuna col (-1) = []
+getColuna col index = getColuna col (index-1) ++ [(principal !! index) !! col]
