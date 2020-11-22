@@ -10,14 +10,20 @@ import Data.List (sort)
 import Puzzle
 
 
-resolve :: Int -> String
-resolve x =
-  if x == 1 then
-    "Teste"
-  else
-    "NOT teste"
+resolve :: Int -> Int -> Int -> [Int] -> IO()
+resolve i j num matriz =
+    if (getPos principal i j) == 0 then
+        if (possivel num i j) then
+            recursao i j num (setPos num (j+(n-1)*i) matriz)
+        else (resolve i j (num-1) matriz)
+    else recursao i j num matriz
 
-
+recursao :: Int -> Int -> Int -> [Int] -> IO()
+recursao i j num matriz
+    | (i == n-1) && (j == n-1) = print (matriz) -- fim
+    | (j == n-1) = resolve (i+1) 0 num matriz
+    | otherwise = resolve i (j+1) num matriz
+    
 
 -- -=-=-=-=-=-=-=-=- Aqui estão as funções auxiliares -=-=-=-=-=-=-=-=-
 
