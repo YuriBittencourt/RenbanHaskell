@@ -2,12 +2,15 @@ module Matriz
     (cria_puzzle,
     numGrupos,
     tamGrupos,
-    achatarMatriz,
-    setPos,
+    getGrupo,
+    setGrupos,
     maximo,
     minimo,
-    getGrupo,
-    getColuna
+    setPos,
+    achatarMatriz,
+    getLinha,
+    getColuna,
+    getPos
     ) where
 
 import Puzzle
