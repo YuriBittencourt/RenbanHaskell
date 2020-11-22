@@ -60,7 +60,17 @@ achatarMatriz :: [[Int]] -> [Int]
 achatarMatriz [] = []
 achatarMatriz (a:x) = a ++ concat x
 
--- Getter para coluna da matriz principal
-getColuna :: Int -> Int -> [Int]
-getColuna col (-1) = []
-getColuna col index = getColuna col (index-1) ++ [(Puzzle.principal !! index) !! col]
+-- Getter para coluna
+getColuna :: Int -> [Int] -> [Int]
+getColuna st matriz
+    | (st >= n*(n-1)) = [matriz !! st]
+    | otherwise = [matriz !! st] ++ getColuna (st+n) matriz
+
+-- Getter para linha
+getLinha :: Int -> [Int] -> [Int]
+getLinha st matriz
+    | (st `mod` n == n-1) = [matriz !! st]
+    | otherwise = [matriz !! st] ++ getLinha (st+1) matriz
+
+getPos :: [[Int]] -> Int -> Int -> Int
+getPos matriz i j = (matriz !! i) !! j
