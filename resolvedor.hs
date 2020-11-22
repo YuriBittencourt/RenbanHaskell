@@ -13,7 +13,7 @@ import Puzzle
 resolve :: Int -> Int -> Int -> [Int] -> IO()
 resolve i j num matriz =
     if (getPos Puzzle.principal i j) == 0 then
-        if (possivel num i j) then
+        if (possivel num i j matriz) then
             recursao i j num (Matriz.setPos num (j+(n-1)*i) matriz)
         else (resolve i j (num-1) matriz)
     else recursao i j num matriz
@@ -43,7 +43,7 @@ possivel num i j matriz = (not ((buscaGrupo num (Matriz.getPos Puzzle.secundaria
                           && (noIntervalo (Matriz.getGrupo (Matriz.getPos Puzzle.secundaria i j) (Matriz.achatarMatriz Puzzle.secundaria)) ((Matriz.tamGrupos (replicate (Matriz.numGrupos (Matriz.achatarMatriz Puzzle.secundaria)) 0) (Matriz.achatarMatriz Puzzle.secundaria)) !! (Matriz.getPos Puzzle.secundaria i j)) num)
 
 -- Verifica se um numero está no intervalo possivel do grupo
-noIntervalo :: [Int] -> Int -> Int -> Bools
+noIntervalo :: [Int] -> Int -> Int -> Bool
 noIntervalo grupo tamanho valor
     |  grupo == [] = True
     |  (length grupo) == tamanho - 1 = ehSequencia (valor:grupo)
@@ -64,14 +64,14 @@ distancia grupo = (Matriz.maximo grupo) - (Matriz.minimo grupo) + 1
 -- Metodo que printa a matriz remontada
 printMatriz :: [Int] -> Int -> Int -> IO ()
 printMatriz [] _ _ = putStr "\n" 
-printMatriz (x:xs) Puzzle.n v = 
+printMatriz (x:xs) n v = 
     do
         putStr " " 
-        if Puzzle.n - 1 == v 
+        if n - 1 == v 
             then do 
                 putStrLn (show x)
-                printMatriz xs Puzzle.n 0
+                printMatriz xs n 0
 
             else do 
                 putStr (show x)
-                printMatriz xs Puzzle.n (v + 1)
+                printMatriz xs n (v + 1)

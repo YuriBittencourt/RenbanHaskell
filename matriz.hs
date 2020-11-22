@@ -1,9 +1,7 @@
 module Matriz
-    (cria_puzzle,
-    numGrupos,
+    (numGrupos,
     tamGrupos,
     getGrupo,
-    setGrupos,
     maximo,
     minimo,
     setPos,
@@ -14,13 +12,6 @@ module Matriz
     ) where
 
 import Puzzle
-
---data puzzle = Int Matriz Matriz [[Int]] [Int]
---             n  princ. secun. grupos  tam-grupos
-
-
-cria_puzzle :: [[Int]] -> Int -> Int
-cria_puzzle x n = x!!n!!n
 
 -- Define a quantidade de grupos do puzzle
 numGrupos :: [Int] -> Int
@@ -37,12 +28,6 @@ getGrupo grupo [] = []
 getGrupo grupo matriz
     | (grupo == (head matriz)) = (achatarMatriz Puzzle.principal) !! (length (achatarMatriz Puzzle.principal) - length matriz) : getGrupo grupo (tail matriz)
     | otherwise = getGrupo grupo (tail matriz)
-
--- Inicializa a lista de grupos
-setGrupos :: Int -> [[Int]]
-setGrupos grupo
-    | (grupo < 0) = []
-    | otherwise = setGrupos (grupo-1) ++ [getGrupo grupo (achatarMatriz secundaria)]
 
 -- -=-=-=-=-=-=-= Aqui estão as funções auxiliares: -=-=-=-=-=-=-=
 
