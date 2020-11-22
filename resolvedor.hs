@@ -48,3 +48,18 @@ ehSequencia lista =
 
 distancia :: [Int] -> Int
 distancia grupo = (Matriz.maximo grupo) - (Matriz.minimo grupo) + 1
+
+-- Metodo que printa a matriz remontada
+printMatriz :: [Int] -> Int -> Int -> IO ()
+printMatriz [] _ _ = putStr "\n" 
+printMatriz (x:xs) n v = 
+    do
+        putStr " " 
+        if n - 1 == v 
+            then do 
+                putStrLn (show x)
+                printMatriz xs n 0
+
+            else do 
+                putStr (show x)
+                printMatriz xs n (v + 1)
